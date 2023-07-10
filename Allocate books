@@ -1,0 +1,46 @@
+import java.util.ArrayList;
+public class Solution {
+    static int sum(ArrayList<Integer> arr){
+        int sum = 0;
+        for(int e: arr) sum += e;
+        return sum;
+    }
+
+    static int max(ArrayList<Integer>  arr){
+        int max = 0;
+        for(int e: arr) max = Math.max(max, e);
+        return max;
+    }
+
+    static int countStudents(ArrayList<Integer> pages, int maxPages){
+        int student = 1, cntPages = 0;
+        for(int i=0; i<pages.size(); i++){
+            if(cntPages + pages.get(i) <= maxPages){
+                cntPages += pages.get(i);
+            }
+            else{
+                student++;
+                cntPages = pages.get(i);
+            }
+        }
+        return student;
+    }
+
+    public static int findPages(ArrayList<Integer> arr, int n, int m) {
+        if(n < m) return -1;
+
+        int low = max(arr), high = sum(arr);
+
+        while(low <= high){
+            int mid = (low + high) / 2;
+
+            int students = countStudents(arr, mid);
+            if(students > m){
+                low = mid + 1;
+            }
+            else high = mid - 1;
+        }
+
+        return low;
+    }
+}
